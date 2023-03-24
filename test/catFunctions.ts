@@ -1,7 +1,7 @@
 /* eslint-disable node/no-unpublished-import */
 import request from 'supertest';
 import expect from 'expect';
-import {Cat} from '../src/interfaces/Cat';
+import Cat from '../src/interfaces/Cat';
 import DBMessageResponse from '../src/interfaces/DBMessageResponse';
 import {Types} from 'mongoose';
 

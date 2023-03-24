@@ -12,7 +12,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
     }
     req.login(user, {session: false}, (error) => {
       if (error) {
-        next(new CustomError('Login error', 400));
+        next(new CustomError('Login error', 400)); 
         return;
       }
       const outputUser: UserOutput = {
@@ -20,7 +20,6 @@ const login = (req: Request, res: Response, next: NextFunction) => {
         user_name: user.user_name,
         email: user.email,
       };
-
       const token = jwt.sign(user, 'asdf');
       return res.json({user: outputUser, token});
     });

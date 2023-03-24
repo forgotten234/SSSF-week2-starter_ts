@@ -1,4 +1,4 @@
-import {Cat} from './Cat';
+import Cat from './Cat';
 import {UserOutput} from './User';
 
 export default interface DBMessageResponse {

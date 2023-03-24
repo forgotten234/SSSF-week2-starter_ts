@@ -9,7 +9,7 @@ import {
   postUser,
   putUser,
 } from './userFunctions';
-import {User, UserTest} from '../src/interfaces/User';
+import {PostUser, User, UserTest} from '../src/interfaces/User';
 import mongoose from 'mongoose';
 import {getNotFound} from './testFunctions';
 import {
@@ -25,7 +25,7 @@ import {
 } from './catFunctions';
 
 import randomstring from 'randomstring';
-import {catGetByUser} from '../src/api/controllers/catController';
+//import {catGetByUser} from '../src/api/controllers/catController';
 
 interface UserWithToken {
   user: User;
@@ -54,7 +54,7 @@ describe('GET /api/v1', () => {
   // test create user
   let token: string;
   let user: UserWithToken;
-  const testUser: UserTest = {
+  const testUser: UserTest = {//creating one
     user_name: 'Test User ' + randomstring.generate(7),
     email: randomstring.generate(9) + '@user.fi',
     password: 'asdfQEWR1234',
@@ -62,6 +62,16 @@ describe('GET /api/v1', () => {
   it('should create a new user', async () => {
     await postUser(app, testUser);
   });
+
+  // const adminUser: PostUser = {//creating one
+  //   user_name: 'Admin User ' + randomstring.generate(7),
+  //   email: 'admin@metropolia.fi',
+  //   password: '1234',
+  //   role: 'admin'
+  // };
+  // it('should create a new user', async () => {
+  //   await postUser(app, adminUser);
+  // });
 
   // test login
   it('should return a user object and bearer token on valid credentials', async () => {
@@ -79,7 +89,7 @@ describe('GET /api/v1', () => {
 
   // test get single user
   it('should return single user', async () => {
-    await getSingleUser(app, user.user._id);
+    await getSingleUser(app, user.user._id);//removing maybe
   });
 
   // test update user
@@ -96,14 +106,14 @@ describe('GET /api/v1', () => {
   let catID: string;
   it('should upload a cat', async () => {
     const message = await postCat(app, token, 'cat.jpg');
-    catID = message.data._id;
+    catID = String(message.data._id);
   });
 
   // test cat upload with GPS
   let catID2: string;
   it('should upload a cat with GPS', async () => {
     const message = await postCat(app, token, 'picWithGPS.jpg');
-    catID2 = message.data._id;
+    catID2 = String(message.data._id);
   });
 
   // test get all cats
@@ -120,7 +130,7 @@ describe('GET /api/v1', () => {
   it('should return cats by current user', async () => {
     await getCatByOwner(app, token);
   });
-
+  
   // get cats by bounding box
   it('should return cats by bounding box', async () => {
     await getCatByBoundingBox(app);
@@ -135,7 +145,7 @@ describe('GET /api/v1', () => {
   let catID3: string;
   it('should upload a cat for admin test', async () => {
     const message = await postCat(app, token, 'cat.jpg');
-    catID3 = message.data._id;
+    catID3 = String(message.data._id);
   });
 
   // login as admin
@@ -167,9 +177,10 @@ describe('GET /api/v1', () => {
   it('should delete GPS image', async () => {
     await userDeleteCat(app, token, catID2);
   });
-
+  
   // test delete user based on token
   it('should delete current user', async () => {
     await deleteUser(app, token);
   });
+  
 });

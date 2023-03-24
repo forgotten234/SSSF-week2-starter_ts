@@ -3,7 +3,7 @@ import {Strategy} from 'passport-local';
 import {Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import userModel from '../../src/api/models/userModel';
-import {LoginUser} from '../interfaces/User';
+import {User} from '../interfaces/User';
 
 passport.use(
   new Strategy(async (username, password, done) => {
@@ -17,7 +17,7 @@ passport.use(
         return done(null, false);
       }
       // convert user to plain object to get rid of binary row type
-      const loginUser: LoginUser = user.toObject();
+      const loginUser: User = user.toObject();
       return done(null, loginUser, {message: 'Logged In Successfully'}); // use spread syntax to create shallow copy to get rid of binary row type
     } catch (err) {
       return done(err);
